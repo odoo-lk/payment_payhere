@@ -84,12 +84,12 @@ class PayhereController(http.Controller):
         #     resp, post = self._parse_pdt_response(resp)
         if status in [2]:
             _logger.info('Payhere: validated data')
-            res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
+            res = request.env['payment.transaction'].sudo().form_feedback(reference, 'payhere')
             if not res and tx:
                 tx._set_transaction_error('Validation error occured. Please contact your administrator.')
         elif status in [0]:
             _logger.info('Payhere: validated data')
-            res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
+            res = request.env['payment.transaction'].sudo().form_feedback(reference, 'payhere')
             if not res and tx:
                 tx._set_transaction_error('Payment is pending, The administrator will validate.')
         elif status in [-1 , -2]:
