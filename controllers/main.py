@@ -58,6 +58,7 @@ class PayhereController(http.Controller):
         res = False
         post['cmd'] = '_notify-validate'
         reference = post.get('order_id')
+        status = post.get('status_code')
         md5sig = post.values()
         print(md5sig)
         tx = None
@@ -80,17 +81,17 @@ class PayhereController(http.Controller):
         resp = urequest.text
         if pdt_request:
             resp, post = self._parse_pdt_response(resp)
-        if resp in [2]:
+        if status in [2]:
             _logger.info('Payhere: validated data')
             res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
             if not res and tx:
                 tx._set_transaction_error('Validation error occured. Please contact your administrator.')
-        elif resp in [0]:
+        elif status in [0]:
             _logger.info('Payhere: validated data')
             res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
             if not res and tx:
                 tx._set_transaction_error('Payment is pending, The administrator will validate.')
-        elif resp in [-1 , -2]:
+        elif status in [-1 , -2]:
             _logger.warning('Payhere: answered INVALID/FAIL on data verification')
             if tx:
                 tx._set_transaction_error('Invalid response from Payhere. Please contact your administrator.')
