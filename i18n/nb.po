@@ -1,0 +1,157 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* payment_payhere
+# 
+# Translators:
+# Martin Trigaux, 2019
+# Marius Stedjan <marius@stedjan.com>, 2020
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server saas~12.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-26 08:16+0000\n"
+"PO-Revision-Date: 2019-08-26 09:12+0000\n"
+"Last-Translator: Marius Stedjan <marius@stedjan.com>, 2020\n"
+"Language-Team: Norwegian Bokmål (https://www.transifex.com/odoo/teams/41243/nb/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: nb\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: payment_payhere
+#: model_terms:ir.ui.view,arch_db:payment_payhere.mail_template_payhere_invite_user_to_configure
+msgid ""
+"<br/><br/>\n"
+"                Thanks,<br/>\n"
+"                <b>The Odoo Team</b>"
+msgstr ""
+"<br/><br/>\n"
+"                Takk,<br/>\n"
+"                <b>Odoo-teamet</b>"
+
+#. module: payment_payhere
+#: code:addons/payment_payhere/models/payment.py:0
+#, python-format
+msgid "Add your Payhere account to Odoo"
+msgstr "Legg til din Payhere-konto i Odoo"
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer__payhere_email_account
+msgid "Email"
+msgstr "E-post"
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer__fees_dom_fixed
+msgid "Fixed domestic fees"
+msgstr "Faste avgifter innland"
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer__fees_int_fixed
+msgid "Fixed international fees"
+msgstr "Faste avgifter utland"
+
+#. module: payment_payhere
+#: model_terms:ir.ui.view,arch_db:payment_payhere.mail_template_payhere_invite_user_to_configure
+msgid ""
+"Hello,\n"
+"                <br/><br/>\n"
+"                You have received a payment through PayPal.<br/>\n"
+"                Kindly follow the instructions given by PayPal to create your account.<br/>\n"
+"                Then, help us complete your Payhere credentials in Odoo.<br/><br/>"
+msgstr ""
+"Heo,\n"
+"                <br/><br/>\n"
+"                Du har mottatt en betaling igjennom Payhere.<br/>\n"
+"                Følg instruksjonene fra Payhere, for å opprette en konto.<br/>\n"
+"                Legg så inn påloggingsinformasjonen for Payhere i Odoo.<br/><br/>"
+
+#. module: payment_payhere
+#: model_terms:ir.ui.view,arch_db:payment_payhere.acquirer_form_payhere
+msgid "How to configure your payhere account?"
+msgstr "Hvordan konfigurere din Payhere-konto?"
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer__payhere_seller_account
+msgid "Merchant Account ID"
+msgstr "Merchant Konto-ID"
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer__payhere_pdt_token
+msgid "PDT Identity Token"
+msgstr "PDT Identitetstoken"
+
+#. module: payment_payhere
+#: model:ir.model,name:payment_payhere.model_payment_acquirer
+msgid "Payment Acquirer"
+msgstr "Betalingsinnløser"
+
+#. module: payment_payhere
+#: model:ir.model.fields,help:payment_payhere.field_payment_acquirer__payhere_pdt_token
+msgid ""
+"Payment Data Transfer allows you to receive notification of successful "
+"payments as they are made."
+msgstr ""
+"Payment Data Transfer gjør at du kan motta varsler ved gjennomførte "
+"betalinger."
+
+#. module: payment_payhere
+#: model:ir.model,name:payment_payhere.model_payment_transaction
+msgid "Payment Transaction"
+msgstr "Betalingstransaksjon"
+
+#. module: payment_payhere
+#: model:ir.model.fields.selection,name:payment_payhere.selection__payment_acquirer__provider__payhere
+msgid "Payhere"
+msgstr "PayPal"
+
+#. module: payment_payhere
+#: model:ir.model.fields,help:payment_payhere.field_payment_acquirer__payhere_use_ipn
+msgid "Payhere Instant Payment Notification"
+msgstr "Payhere Instant Payment Notification"
+
+#. module: payment_payhere
+#: code:addons/payment_payhere/models/payment.py:0
+#, python-format
+msgid "Payhere: received data with missing reference (%s) or txn_id (%s)"
+msgstr "Payhere: Mottok data med manglende referanse (%s) eller txn_id (%s)"
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer__provider
+msgid "Provider"
+msgstr "Tilbyder"
+
+#. module: payment_payhere
+#: model_terms:ir.ui.view,arch_db:payment_payhere.mail_template_payhere_invite_user_to_configure
+msgid "Set Payhere credentials"
+msgstr "Legg inn påloggingsdetaljer"
+
+#. module: payment_payhere
+#: model:ir.model.fields,help:payment_payhere.field_payment_acquirer__payhere_seller_account
+msgid ""
+"The Merchant ID is used to ensure communications coming from Payhere are "
+"valid and secured."
+msgstr ""
+"Merchant-ID brukes til å forsikre at kommunikasjon fra Payhere er gyldig og "
+"sikker."
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_transaction__payhere_txn_type
+msgid "Transaction type"
+msgstr "Transaksjonstype"
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer__payhere_use_ipn
+msgid "Use IPN"
+msgstr "Bruk IPN"
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer__fees_dom_var
+msgid "Variable domestic fees (in percents)"
+msgstr "Varible avgifter innland (i prosent)"
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer__fees_int_var
+msgid "Variable international fees (in percents)"
+msgstr "Variable avgifter utland (i prosent)"

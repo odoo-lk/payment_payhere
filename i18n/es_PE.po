@@ -1,0 +1,106 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * payment_payhere
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-20 09:53+0000\n"
+"PO-Revision-Date: 2017-09-20 09:53+0000\n"
+"Language-Team: Spanish (Peru) (https://www.transifex.com/odoo/teams/41243/es_PE/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es_PE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer_payhere_api_access_token
+msgid "Access Token"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer_payhere_api_access_token_validity
+msgid "Access Token Validity"
+msgstr ""
+
+#. module: payment_payhere
+#: model_terms:ir.ui.view,arch_db:payment_payhere.acquirer_form_payhere
+msgid "How to configure your payhere account?"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model,name:payment_payhere.model_payment_acquirer
+msgid "Payment Acquirer"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,help:payment_payhere.field_payment_acquirer_payhere_pdt_token
+msgid ""
+"Payment Data Transfer allows you to receive notification of successful "
+"payments as they are made."
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model,name:payment_payhere.model_payment_transaction
+msgid "Payment Transaction"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer_payhere_email_account
+msgid "Payhere Email ID"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,help:payment_payhere.field_payment_acquirer_payhere_use_ipn
+msgid "Payhere Instant Payment Notification"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer_payhere_seller_account
+msgid "Payhere Merchant ID"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer_payhere_pdt_token
+msgid "Payhere PDT Token"
+msgstr ""
+
+#. module: payment_payhere
+#: code:addons/payment_payhere/models/payment.py:138
+#, python-format
+msgid "Payhere: received data with missing reference (%s) or txn_id (%s)"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer_payhere_api_password
+msgid "Rest API Password"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer_payhere_api_username
+msgid "Rest API Username"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,help:payment_payhere.field_payment_acquirer_payhere_seller_account
+msgid ""
+"The Merchant ID is used to ensure communications coming from Payhere are "
+"valid and secured."
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_transaction_payhere_txn_type
+msgid "Transaction type"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer_payhere_use_ipn
+msgid "Use IPN"
+msgstr ""
+
+#. module: payment_payhere
+#: model:ir.model.fields,field_description:payment_payhere.field_payment_acquirer_payhere_api_enabled
+msgid "Use Rest API"
+msgstr ""
