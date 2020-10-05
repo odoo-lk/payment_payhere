@@ -64,15 +64,15 @@ class PayhereController(http.Controller):
             tx = request.env['payment.transaction'].sudo().search([('reference', '=', reference)])
         if not tx:
             # we have seemingly received a notification for a payment that did not come from
-            # odoo, acknowledge it otherwise paypal will keep trying
+            # odoo, acknowledge it otherwise Payhere will keep trying
             _logger.warning('received notification for unknown payment reference')
             return False
         payhere_url = tx.acquirer_id.payhere_get_form_action_url()
-        pdt_request = bool(post.get('amount'))  # check for specific pdt param
+        pdt_request = bool(post.get('payment_id'))  # check for specific pdt param
         if pdt_request:
             # this means we are in PDT instead of DPN like before
             # fetch the PDT token
-            post['at'] = tx and tx.acquirer_id.paypal_pdt_token or ''
+            post['at'] = tx and tx.acquirer_id.Payhere_pdt_token or ''
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         urequest = requests.post(payhere_url, post)
         pprint.pformat(urequest)
@@ -80,20 +80,20 @@ class PayhereController(http.Controller):
         if pdt_request:
             resp = int(post.get('status_code'))
         if resp == 2:
-            _logger.info('Paypal: validated data')
-            res = request.env['payment.transaction'].sudo().form_feedback(post, 'paypal')
+            _logger.info('Payhere: validated data')
+            res = request.env['payment.transaction'].sudo().form_feedback(post, 'Payhere')
             if not res and tx:
                 tx._set_transaction_error('Validation error occured. Please contact your administrator.')
         elif resp in ['INVALID', 'FAIL']:
-            _logger.warning('Paypal: answered INVALID/FAIL on data verification')
+            _logger.warning('Payhere: answered INVALID/FAIL on data verification')
             if tx:
-                tx._set_transaction_error('Invalid response from Paypal. Please contact your administrator.')
+                tx._set_transaction_error('Invalid response from Payhere. Please contact your administrator.')
         else:
             _logger.warning(
-                'Paypal: unrecognized paypal answer, received %s instead of VERIFIED/SUCCESS or INVALID/FAIL (validation: %s)' % (
+                'Payhere: unrecognized Payhere answer, received %s instead of VERIFIED/SUCCESS or INVALID/FAIL (validation: %s)' % (
                 resp, 'PDT' if pdt_request else 'IPN/DPN'))
             if tx:
-                tx._set_transaction_error('Unrecognized error from Paypal. Please contact your administrator.')
+                tx._set_transaction_error('Unrecognized error from Payhere. Please contact your administrator.')
         return res
 
     @http.route('/payment/payhere/ipn/', type='http', auth='public', methods=['POST'], csrf=False)
