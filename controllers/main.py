@@ -59,15 +59,15 @@ class PayhereController(http.Controller):
             _logger.warning('received notification for unknown payment reference')
             return False
         payhere_url = tx.acquirer_id.payhere_get_form_action_url()
-        pdt_request = bool(post.get('order_id'))  # check for specific pdt param
-        if pdt_request:
+        ipn_request = bool(post.get('status_code'))  # check for specific pdt param
+        if ipn_request:
             # this means we are in PDT instead of DPN like before
             # fetch the PDT token
             post['at'] = tx and tx.acquirer_id.payhere_pdt_token or ''
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         requests.post(payhere_url, post)
         resp = post
-        if pdt_request:
+        if ipn_request:
             resp, post = self._parse_pdt_response(resp)
         if resp == 2:
             _logger.info('Payhere: validated data')
@@ -102,7 +102,7 @@ class PayhereController(http.Controller):
         """ Payhere DPN """
         _logger.info('Beginning Payhere DPN form_feedback with post data %s', pprint.pformat(post))  # debug
         try:
-            res = self.payhere_validate_data(**post)
+            return post
         except ValidationError:
             _logger.exception('Unable to validate the Payhere payment')
         return werkzeug.utils.redirect('/payment/process')
