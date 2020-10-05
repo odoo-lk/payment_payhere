@@ -30,7 +30,10 @@ class PayhereController(http.Controller):
                     :return: tuple containing the STATUS str and the key/value pairs
                              parsed as a dict
                 """
-        status = response.get('status_code')
+        status = None
+        pdt = bool(response.get('status_code'))
+        if pdt:
+            status = int(response.get('status_code'))
         return status, response
 
     def payhere_validate_data(self, **post):
@@ -56,14 +59,13 @@ class PayhereController(http.Controller):
             _logger.warning('received notification for unknown payment reference')
             return False
         payhere_url = tx.acquirer_id.payhere_get_form_action_url()
-        pdt_request = bool(post.get('payment_id'))  # check for specific pdt param
+        pdt_request = bool(post.get('order_id'))  # check for specific pdt param
         if pdt_request:
             # this means we are in PDT instead of DPN like before
             # fetch the PDT token
             post['at'] = tx and tx.acquirer_id.payhere_pdt_token or ''
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
-        urequest = requests.post(payhere_url, post)
-        pprint.pformat(urequest)
+        requests.post(payhere_url, post)
         resp = post
         if pdt_request:
             resp, post = self._parse_pdt_response(resp)
