@@ -72,7 +72,7 @@ class PayhereController(http.Controller):
         if pdt_request:
             # this means we are in PDT instead of DPN like before
             # fetch the PDT token
-            post['at'] = tx and tx.acquirer_id.Payhere_pdt_token or ''
+            post['at'] = tx and tx.acquirer_id.payhere_pdt_token or ''
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         urequest = requests.post(payhere_url, post)
         pprint.pformat(urequest)
