@@ -77,11 +77,13 @@ class PayhereController(http.Controller):
         urequest = requests.post(payhere_url, post)
         pprint.pformat(urequest)
         resp = post.get('status_code')
+        pprint.pformat(post)
         if pdt_request:
             resp = int(post.get('status_code'))
         if resp == 2:
             _logger.info('Payhere: validated data')
-            res = request.env['payment.transaction'].sudo().form_feedback(post, 'Payhere')
+            res = post
+            request.env['payment.transaction'].sudo().form_feedback(post, 'Payhere')
             if not res and tx:
                 tx._set_transaction_error('Validation error occured. Please contact your administrator.')
         elif resp in ['INVALID', 'FAIL']:
@@ -89,10 +91,9 @@ class PayhereController(http.Controller):
             if tx:
                 tx._set_transaction_error('Invalid response from Payhere. Please contact your administrator.')
         else:
-            res = request.env['payment.transaction'].sudo().form_feedback(post, 'Payhere')
-            # _logger.warning(
-            #     'Payhere: unrecognized Payhere answer, received %s instead of VERIFIED/SUCCESS or INVALID/FAIL (validation: %s)' % (
-            #     resp, 'PDT' if pdt_request else 'IPN/DPN'))
+            _logger.warning(
+                'Payhere: unrecognized Payhere answer, received %s instead of VERIFIED/SUCCESS or INVALID/FAIL (validation: %s)' % (
+                resp, 'PDT' if pdt_request else 'IPN/DPN'))
             if tx:
                 tx._set_transaction_error('Unrecognized error from Payhere. Please contact your administrator.')
         return res

@@ -187,9 +187,14 @@ class TxPayhere(models.Model):
         status = data.get('status_code')
         print('status'+status)
         former_tx_state = self.state
+
+        if data.get('payhere_amount') > 0:
+            payment_type = 'inbound'
+        else:
+            payment_type = 'outbound'
         res = {
             'acquirer_reference': data.get('order_id'),
-            'payhere_txn_type': data.get('payment_type'),
+            'payhere_txn_type': payment_type,
         }
         if not self.acquirer_id.payhere_pdt_token and not self.acquirer_id.payhere_seller_account and status in [0, 1]:
             template = self.env.ref('payment_payhere.mail_template_payhere_invite_user_to_configure', False)
