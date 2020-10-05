@@ -64,7 +64,7 @@ class PayhereController(http.Controller):
         # print(md5sig)
         tx = None
         if reference:
-            tx = request.env['payment.transaction'].sudo().search([('reference', '=', post)])
+            tx = request.env['payment.transaction'].sudo().search([('reference', '=', reference)])
         if not tx:
             # we have seemingly received a notification for a payment that did not come from
             # odoo, acknowledge it otherwise payhere will keep trying
