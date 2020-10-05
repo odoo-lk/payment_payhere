@@ -72,8 +72,9 @@ class PayhereController(http.Controller):
         _logger.info('processing pdt/ipn %s', pprint.pformat(post))
         if pdt_request:
             post = request.env['payment.transaction'].sudo().search([])
-            _logger.info('processing pdt %s', pprint.pformat(post))
             resp, post = self._parse_pdt_response(json.load(post))
+            _logger.info('processing pdt response %s', pprint.pformat(post))
+            _logger.info('processing pdt status %s', pprint.pformat(resp))
         if resp == 2:
             _logger.info('Payhere: validated data')
             res = post
