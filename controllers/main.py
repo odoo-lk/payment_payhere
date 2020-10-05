@@ -64,7 +64,8 @@ class PayhereController(http.Controller):
             # this means we are in PDT instead of DPN like before
             # fetch the PDT token
             post['at'] = tx and tx.acquirer_id.payhere_pdt_token or ''
-            # post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
+            post['status_code'] = request.env['payment.transaction'].sudo().browse('status_code')
+            post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         requests.post(payhere_url, post)
         resp = post
         if pdt_request:
@@ -95,7 +96,7 @@ class PayhereController(http.Controller):
             self.payhere_validate_data(**post)
         except ValidationError:
             _logger.exception('Unable to validate the Payhere payment')
-        return werkzeug.utils.redirect('/payment/process')
+        return ''
 
     @http.route('/payment/payhere/dpn', type='http', auth="public", methods=['POST', 'GET'], csrf=False)
     def payhere_dpn(self, **post):
