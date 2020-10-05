@@ -70,18 +70,18 @@ class PayhereController(http.Controller):
             # odoo, acknowledge it otherwise payhere will keep trying
             _logger.warning('received notification for unknown payment reference')
             return False
-        # payhere_url = tx.acquirer_id.payhere_get_form_action_url()
+        payhere_url = tx.acquirer_id.payhere_get_form_action_url()
         pdt_request = bool(post.get('order_id'))  # check for specific pdt param
-        # if pdt_request:
-        #     # this means we are in PDT instead of DPN like before
-        #     # fetch the PDT token
-        #     post['at'] = tx and tx.acquirer_id.payhere_pdt_token or ''
-        #     post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
-        # urequest = requests.post(payhere_url, post)
-        # urequest.raise_for_status()
-        # resp = urequest.text
-        # if pdt_request:
-        #     resp, post = self._parse_pdt_response(resp)
+        if pdt_request:
+            # this means we are in PDT instead of DPN like before
+            # fetch the PDT token
+            post['at'] = tx and tx.acquirer_id.payhere_pdt_token or ''
+            post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
+        urequest = requests.post(payhere_url, post)
+        urequest.raise_for_status()
+        resp = urequest.text
+        if pdt_request:
+            resp, post = self._parse_pdt_response(resp)
         if status in [2]:
             _logger.info('Payhere: validated data')
             res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
