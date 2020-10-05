@@ -95,7 +95,7 @@ class PayhereController(http.Controller):
             self.payhere_validate_data(**post)
         except ValidationError:
             _logger.exception('Unable to validate the Payhere payment')
-        return ''
+        return werkzeug.utils.redirect('/payment/process')
 
     @http.route('/payment/payhere/dpn', type='http', auth="public", methods=['POST', 'GET'], csrf=False)
     def payhere_dpn(self, **post):
