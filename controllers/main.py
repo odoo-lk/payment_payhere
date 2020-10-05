@@ -64,10 +64,10 @@ class PayhereController(http.Controller):
             # this means we are in PDT instead of DPN like before
             # fetch the PDT token
             post['at'] = tx and tx.acquirer_id.payhere_pdt_token or ''
-            post['status_code'] = request.env['payment.transaction'].sudo().browse('status_code')
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         requests.post(payhere_url, post)
-        resp = post
+        resp = request.env['payment.transaction']
+        pprint.pformat(resp)
         if pdt_request:
             resp, post = self._parse_pdt_response(resp)
         if resp == 2:
