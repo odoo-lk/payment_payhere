@@ -79,12 +79,12 @@ class PayhereController(http.Controller):
         urequest.raise_for_status()
         if pdt_request:
             resp = post.get('status_code')
-        if resp in [2]:
+        if resp == 2:
             _logger.info('Payhere: validated data')
             res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
             if not res and tx:
                 tx._set_transaction_error('Validation error occured. Please contact your administrator.')
-        elif resp in [0]:
+        elif resp == 0:
             _logger.info('Payhere: validated data')
             res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
             if not res and tx:
