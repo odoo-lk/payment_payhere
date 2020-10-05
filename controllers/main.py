@@ -66,7 +66,7 @@ class PayhereController(http.Controller):
             post['at'] = tx and tx.acquirer_id.payhere_pdt_token or ''
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         requests.post(payhere_url, post)
-        resp = self._parse_pdt_response(post)
+        resp = self._parse_pdt_response(post).get('status_code')
         if pdt_request:
             # resp, post = self._parse_pdt_response(post)
             _logger.info('processing pdt response %s', pprint.pformat(post))
