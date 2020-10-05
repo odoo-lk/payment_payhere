@@ -2,6 +2,7 @@
 
 import json
 import logging
+import pprint
 
 import dateutil.parser
 import pytz
@@ -196,6 +197,7 @@ class TxPayhere(models.Model):
             'acquirer_reference': data.get('order_id'),
             'payhere_txn_type': payment_type,
         }
+        pprint.pformat(data)
         if not self.acquirer_id.payhere_pdt_token and not self.acquirer_id.payhere_seller_account and status in [0, 1]:
             template = self.env.ref('payment_payhere.mail_template_payhere_invite_user_to_configure', False)
             if template:
