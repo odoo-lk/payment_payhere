@@ -30,8 +30,6 @@ class PayhereController(http.Controller):
                     :return: tuple containing the STATUS str and the key/value pairs
                              parsed as a dict
                 """
-        _logger.info('Beginning Payhere DPN form_feedback with post data %s', pprint.pformat(response))  # debug
-
         status = None
         pdt = bool(response.get('status_code'))
         if pdt:
@@ -69,7 +67,7 @@ class PayhereController(http.Controller):
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         requests.post(payhere_url, post)
         resp = self._parse_pdt_response(post)
-        payhere = request.env['payment.transaction'].sudo().search(['payhere'])
+        payhere = request.env['payment.transaction'].sudo().search([])
         _logger.info('processing pdt response %s', pprint.pformat(payhere))
         if pdt_request:
             post = request.env['payment.transaction'].sudo().search([])
