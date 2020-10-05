@@ -23,27 +23,15 @@ class PayhereController(http.Controller):
     def _parse_pdt_response(self, response):
         """ Parse a text response for a PDT verification.
 
-            :param str response: text response, structured in the following way:
-                STATUS\nkey1=value1\nkey2=value2...\n
-             or STATUS\nError message...\n
-            :rtype tuple(str, dict)
-            :return: tuple containing the STATUS str and the key/value pairs
-                     parsed as a dict
-        """
-        # lines = [line for line in response.split('\n') if line]
-        # status = lines.pop(0)
-        # print('status'+status)
-        #
-        # pdt_post = {}
-        # for line in lines:
-        #     split = line.split('=', 1)
-        #     if len(split) == 2:
-        #         pdt_post[split[0]] = urls.url_unquote_plus(split[1])
-        #     else:
-        #         _logger.warning('Payhere: error processing pdt response: %s', line)
-
-        status = response.get('')
-        return status
+                    :param str response: text response, structured in the following way:
+                        STATUS\nkey1=value1\nkey2=value2...\n
+                     or STATUS\nError message...\n
+                    :rtype tuple(str, dict)
+                    :return: tuple containing the STATUS str and the key/value pairs
+                             parsed as a dict
+                """
+        status = response.get('status_code')
+        return status, response
 
     def payhere_validate_data(self, **post):
         """ Payhere IPN: three steps validation to ensure data correctness
@@ -76,10 +64,9 @@ class PayhereController(http.Controller):
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         urequest = requests.post(payhere_url, post)
         pprint.pformat(urequest)
-        resp = post.get('status_code')
-        pprint.pformat(post)
+        resp = post
         if pdt_request:
-            resp = int(post.get('status_code'))
+            resp, post = self._parse_pdt_response(resp)
         if resp == 2:
             _logger.info('Payhere: validated data')
             res = post
