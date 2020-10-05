@@ -58,8 +58,6 @@ class PayhereController(http.Controller):
         res = False
         post['cmd'] = '_notify-validate'
         reference = post.get('order_id')
-        status = int(post.get('status_code'))
-
         # md5sig = post.values()
         # print(md5sig)
         tx = None
@@ -81,23 +79,23 @@ class PayhereController(http.Controller):
         urequest.raise_for_status()
         resp = urequest.text
         if pdt_request:
-            resp, post = self._parse_pdt_response(resp)
-        if status in [2]:
+            resp, post =  int(post.get('status_code'))
+        if resp in [2]:
             _logger.info('Payhere: validated data')
             res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
             if not res and tx:
                 tx._set_transaction_error('Validation error occured. Please contact your administrator.')
-        elif status in [0]:
+        elif resp in [0]:
             _logger.info('Payhere: validated data')
             res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
             if not res and tx:
                 tx._set_transaction_error('Payment is pending, The administrator will validate.')
-        elif status in [-1 , -2]:
+        elif resp in [-1 , -2]:
             _logger.warning('Payhere: answered INVALID/FAIL on data verification')
             if tx:
                 tx._set_transaction_error('Invalid response from Payhere. Please contact your administrator.')
         else:
-            _logger.warning('Payhere: unrecognized payhere answer, received %s instead of VERIFIED/SUCCESS or INVALID/FAIL (validation: %s)' % (status, 'PDT' if pdt_request else 'IPN/DPN'))
+            _logger.warning('Payhere: unrecognized payhere answer, received %s instead of VERIFIED/SUCCESS or INVALID/FAIL (validation: %s)' % (resp, 'PDT' if pdt_request else 'IPN/DPN'))
             if tx:
                 tx._set_transaction_error('Unrecognized error from Payhere. Please contact your administrator.')
         return res
