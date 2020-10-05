@@ -79,7 +79,7 @@ class PayhereController(http.Controller):
         urequest.raise_for_status()
         resp = post.get('status_code')
         if pdt_request:
-            resp, post =  post.get('status_code')
+            resp  =  post.get('status_code')
         if resp in [2]:
             _logger.info('Payhere: validated data')
             res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
