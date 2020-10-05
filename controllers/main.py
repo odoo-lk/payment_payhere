@@ -77,7 +77,7 @@ class PayhereController(http.Controller):
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         urequest = requests.post(payhere_url, post)
         urequest.raise_for_status()
-        resp = urequest.text
+        resp = post.get('status_code')
         if pdt_request:
             resp, post =  post.get('status_code')
         if resp in [2]:
