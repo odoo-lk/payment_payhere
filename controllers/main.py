@@ -33,9 +33,9 @@ class PayhereController(http.Controller):
         _logger.info('Beginning Payhere DPN form_feedback with post data %s', pprint.pformat(response))  # debug
 
         status = None
-        pdt = response.status_code
+        pdt = bool(response.get('status_code'))
         if pdt:
-            status = response.status_code
+            status = int(response.get('status_code'))
         return status, response
 
     def payhere_validate_data(self, **post):
@@ -72,7 +72,7 @@ class PayhereController(http.Controller):
         resp = request.env['payment.transaction']
         _logger.info('Beginning Payhere DPN form_feedback with post data %s', pprint.pformat(resp))  # debug
         if pdt_request:
-            resp, post = self._parse_pdt_response(resp)
+            resp, post = self._parse_pdt_response(json.loads(resp))
         if resp == 2:
             _logger.info('Payhere: validated data')
             res = post
