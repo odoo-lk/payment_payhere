@@ -36,7 +36,7 @@ class PayhereController(http.Controller):
         pdt = bool(response.get('status_code'))
         if pdt:
             status = int(response.get('status_code'))
-        return status, response
+        return response, status
 
     def payhere_validate_data(self, **post):
         """ Payhere IPN: three steps validation to ensure data correctness
@@ -73,7 +73,7 @@ class PayhereController(http.Controller):
         if pdt_request:
             post = request.env['payment.transaction'].sudo().search([])
             _logger.info('processing pdt %s', pprint.pformat(post))
-            post, resp = self._parse_pdt_response(json.load(post))
+            resp, post = self._parse_pdt_response(json.load(post))
         if resp == 2:
             _logger.info('Payhere: validated data')
             res = post
