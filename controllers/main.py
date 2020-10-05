@@ -68,11 +68,9 @@ class PayhereController(http.Controller):
             post['at'] = tx and tx.acquirer_id.payhere_pdt_token or ''
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         requests.post(payhere_url, post)
-        resp = request.env['payment.transaction']
-        _logger.info('Beginning Payhere DPN form_feedback type %s', type(resp))  # debug
-        _logger.info('Beginning Payhere DPN form_feedback data %s', type(resp))  # debug
+        resp = request.env['payment.transaction'].sudo()
         if pdt_request:
-            resp, post = self._parse_pdt_response(json.loads(resp))
+            resp, post = self._parse_pdt_response(resp)
         if resp == 2:
             _logger.info('Payhere: validated data')
             res = post
