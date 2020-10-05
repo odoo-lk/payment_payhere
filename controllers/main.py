@@ -76,8 +76,9 @@ class PayhereController(http.Controller):
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         urequest = requests.post(payhere_url, post)
         pprint.pformat(urequest)
+        resp = post.get('status_code')
         if pdt_request:
-            resp = post.get('status_code')
+            resp = int(post.get('status_code'))
         if resp == 2:
             _logger.info('Paypal: validated data')
             res = request.env['payment.transaction'].sudo().form_feedback(post, 'paypal')
