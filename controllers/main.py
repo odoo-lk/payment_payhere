@@ -67,18 +67,18 @@ class PayhereController(http.Controller):
             # odoo, acknowledge it otherwise paypal will keep trying
             _logger.warning('received notification for unknown payment reference')
             return False
-        paypal_url = tx.acquirer_id.paypal_get_form_action_url()
+        payhere_url = tx.acquirer_id.payhere_get_form_action_url()
         pdt_request = bool(post.get('amount'))  # check for specific pdt param
         if pdt_request:
             # this means we are in PDT instead of DPN like before
             # fetch the PDT token
             post['at'] = tx and tx.acquirer_id.paypal_pdt_token or ''
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
-        # urequest = requests.post(paypal_url, post)
-        # urequest.raise_for_status()
+        urequest = requests.post(payhere_url, post)
+        pprint.pformat(urequest)
         if pdt_request:
-            resp  = post.get('status_code')
-        if resp in ['2']:
+            resp = post.get('status_code')
+        if resp == 2:
             _logger.info('Paypal: validated data')
             res = request.env['payment.transaction'].sudo().form_feedback(post, 'paypal')
             if not res and tx:
