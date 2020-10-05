@@ -30,11 +30,13 @@ class PayhereController(http.Controller):
                     :return: tuple containing the STATUS str and the key/value pairs
                              parsed as a dict
                 """
+        _logger.info('Beginning Payhere DPN form_feedback with post data %s', pprint.pformat(response))  # debug
+
         status = None
         pdt = bool(response.get('status_code'))
         if pdt:
             status = int(response.get('status_code'))
-        return response, status
+        return status, response
 
     def payhere_validate_data(self, **post):
         """ Payhere IPN: three steps validation to ensure data correctness
@@ -59,21 +61,20 @@ class PayhereController(http.Controller):
             _logger.warning('received notification for unknown payment reference')
             return False
         payhere_url = tx.acquirer_id.payhere_get_form_action_url()
-        pdt_request = bool(post.get('amount'))  # check for specific pdt param
+        pdt_request = bool(post.get('payment_id'))  # check for specific pdt param
         if pdt_request:
             # this means we are in PDT instead of DPN like before
             # fetch the PDT token
             post['at'] = tx and tx.acquirer_id.payhere_pdt_token or ''
             post['cmd'] = '_notify-synch'  # command is different in PDT than IPN/DPN
         requests.post(payhere_url, post)
-        resp = self._parse_pdt_response(post).get('status_code')
-        if pdt_request:
-            # resp, post = self._parse_pdt_response(post)
-            _logger.info('processing pdt response %s', pprint.pformat(post))
-            _logger.info('processing pdt status %s', pprint.pformat(resp))
+        resp = bool(post.get('status_code'))
+        _logger.info('Beginning Payhere IPN form_feedback with post data %s', pprint.pformat(post))
+        if resp:
+            resp = int(post.get('status_code'))
         if resp == 2:
             _logger.info('Payhere: validated data')
-            res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
+            res =request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
             if not res and tx:
                 tx._set_transaction_error('Validation error occured. Please contact your administrator.')
         elif resp in ['INVALID', 'FAIL']:
