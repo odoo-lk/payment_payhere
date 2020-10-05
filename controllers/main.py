@@ -69,7 +69,7 @@ class PayhereController(http.Controller):
             _logger.warning('received notification for unknown payment reference')
             return False
         payhere_url = tx.acquirer_id.payhere_get_form_action_url()
-        pdt_request = bool(post.get('status_code'))  # check for specific pdt param
+        pdt_request = (post.get('status_code'))  # check for specific pdt param
         if pdt_request:
             # this means we are in PDT instead of DPN like before
             # fetch the PDT token
