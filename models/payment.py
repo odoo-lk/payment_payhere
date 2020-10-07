@@ -186,8 +186,8 @@ class TxPayhere(models.Model):
 
     def _payhere_form_validate(self, data):
         status = data.get('status_code')
-        print('status'+status)
         former_tx_state = self.state
+        _logger.info('Received notification for Payhere payment %s: set as Confirmed' % (data))
 
         if data.get('payhere_amount') > 0:
             payment_type = 'inbound'
