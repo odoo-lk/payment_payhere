@@ -128,13 +128,13 @@ class TxPayhere(models.Model):
 
     @api.model
     def _payhere_form_get_tx_from_data(self, data):
-        reference, txn_id = data.get('order_id'), data.get('txn_id')
-        if not reference or not txn_id:
-            error_msg = _('Payhere: received data with missing reference (%s) or txn_id (%s)') % (reference, txn_id)
+        reference, payment_id = data.get('order_id'), data.get('payment_id')
+        if not reference or not payment_id:
+            error_msg = _('Payhere: received data with missing reference (%s) or payment_id (%s)') % (reference, payment_id)
             _logger.info(error_msg)
             raise ValidationError(error_msg)
 
-        # find tx -> @TDENOTE use txn_id ?
+        # find tx -> @TDENOTE use payment_id ?
         txs = self.env['payment.transaction'].search([('reference', '=', reference)])
         if not txs or len(txs) > 1:
             error_msg = 'Payhere: received data for reference %s' % (reference)
@@ -154,9 +154,9 @@ class TxPayhere(models.Model):
                 'Received a notification from Payhere using sandbox'
             ),
 
-        # TODO: txn_id: shoudl be false at draft, set afterwards, and verified with txn details
-        if self.acquirer_reference and data.get('txn_id') != self.acquirer_reference:
-            invalid_parameters.append(('txn_id', data.get('txn_id'), self.acquirer_reference))
+        # TODO: payment_id: shoudl be false at draft, set afterwards, and verified with txn details
+        if self.acquirer_reference and data.get('payment_id') != self.acquirer_reference:
+            invalid_parameters.append(('payment_id', data.get('payment_id'), self.acquirer_reference))
         # check what is buyed
         if float_compare(float(data.get('mc_gross', '0.0')), (self.amount + self.fees), 2) != 0:
             invalid_parameters.append(('mc_gross', data.get('mc_gross'), '%.2f' % (self.amount + self.fees)))  # mc_gross is amount + fees

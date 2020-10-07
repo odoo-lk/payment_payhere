@@ -73,7 +73,7 @@ class PayhereController(http.Controller):
         if resp:
             resp = int(post.get('status_code'))
         if resp == 2:
-            res = request.env['payment.transaction'].sudo().form_feedback(reference, 'payhere')
+            res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
             if not res and tx:
                 tx._set_transaction_error('Validation error occured. Please contact your administrator.')
         elif resp in [-1, -2]:
