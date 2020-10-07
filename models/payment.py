@@ -197,6 +197,7 @@ class TxPayhere(models.Model):
             'payhere_txn_type': payment_type,
         }
 
+        _logger.info('Validated Payhere self values %s' % pprint.pformat(self))
         if not self.acquirer_id.payhere_pdt_token and not self.acquirer_id.payhere_seller_account and status in [0, 1]:
             template = self.env.ref('payment_payhere.mail_template_payhere_invite_user_to_configure', False)
             if template:
