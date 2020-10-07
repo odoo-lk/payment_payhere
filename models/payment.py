@@ -188,7 +188,7 @@ class TxPayhere(models.Model):
         status = data.get('status_code')
         former_tx_state = self.state
 
-        if int(data.get('payhere_amount')) > 0:
+        if float(data.get('payhere_amount')) > 0:
             payment_type = 'inbound'
         else:
             payment_type = 'outbound'
