@@ -74,7 +74,8 @@ class PayhereController(http.Controller):
             resp = int(post.get('status_code'))
         if resp == 2:
             _logger.info('Payhere: validated data')
-            res =request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
+            res = request.env['payment.transaction'].sudo().form_feedback(post, 'payhere')
+            _logger.info('Data to process %s', pprint.pformat(res))
             if not res and tx:
                 tx._set_transaction_error('Validation error occured. Please contact your administrator.')
         elif resp in ['INVALID', 'FAIL']:
