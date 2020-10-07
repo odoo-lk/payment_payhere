@@ -12,6 +12,7 @@ from odoo import api, fields, models, _
 from odoo.addons.payment.models.payment_acquirer import ValidationError
 from odoo.addons.payment_payhere.controllers.main import PayhereController
 from odoo.tools.float_utils import float_compare
+from datetime import datetime
 
 
 _logger = logging.getLogger(__name__)
@@ -185,7 +186,7 @@ class TxPayhere(models.Model):
         return invalid_parameters
 
     def _payhere_form_validate(self, data):
-        status = data.get('status_code')
+        status = int(data.get('status_code'))
         former_tx_state = self.state
 
         if float(data.get('payhere_amount')) > 0:
@@ -197,7 +198,6 @@ class TxPayhere(models.Model):
             'payhere_txn_type': payment_type,
         }
 
-        _logger.info('Validated Payhere self values %s' % pprint.pformat(self.state))
         if not self.acquirer_id.payhere_pdt_token and not self.acquirer_id.payhere_seller_account and status in [0, 1]:
             template = self.env.ref('payment_payhere.mail_template_payhere_invite_user_to_configure', False)
             if template:
@@ -220,7 +220,7 @@ class TxPayhere(models.Model):
                     'PST': -8 * 3600,
                     'PDT': -7 * 3600,
                 }
-                date = dateutil.parser.parse(data.get('payment_date'), tzinfos=tzinfos).astimezone(pytz.utc).replace(tzinfo=None)
+                date = dateutil.parser.parse(datetime.date(datetime.now()), tzinfos=tzinfos).astimezone(pytz.utc).replace(tzinfo=None)
             except:
                 date = fields.Datetime.now()
             res.update(date=date)
