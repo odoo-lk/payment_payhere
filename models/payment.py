@@ -158,10 +158,10 @@ class TxPayhere(models.Model):
         if self.acquirer_reference and data.get('payment_id') != self.acquirer_reference:
             invalid_parameters.append(('payment_id', data.get('payment_id'), self.acquirer_reference))
         # check what is buyed
-        if float_compare(float(data.get('mc_gross', '0.0')), (self.amount + self.fees), 2) != 0:
-            invalid_parameters.append(('mc_gross', data.get('mc_gross'), '%.2f' % (self.amount + self.fees)))  # mc_gross is amount + fees
-        if data.get('mc_currency') != self.currency_id.name:
-            invalid_parameters.append(('mc_currency', data.get('mc_currency'), self.currency_id.name))
+        if float_compare(float(data.get('payhere_amount', '0.0')), (self.amount + self.fees), 2) != 0:
+            invalid_parameters.append(('payhere_amount', data.get('payhere_amount'), '%.2f' % (self.amount + self.fees)))  # payhere_amount is amount + fees
+        if data.get('payhere_currency') != self.currency_id.name:
+            invalid_parameters.append(('payhere_currency', data.get('payhere_currency'), self.currency_id.name))
         if 'handling_amount' in data and float_compare(float(data.get('handling_amount')), self.fees, 2) != 0:
             invalid_parameters.append(('handling_amount', data.get('handling_amount'), self.fees))
         # check buyer
