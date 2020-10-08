@@ -95,6 +95,7 @@ class AcquirerPayhere(models.Model):
             'merchant_id': self.payhere_email_account,
             'items': '%s: %s' % (self.company_id.name, reference),
             'order_id': reference,
+            'reference' : reference
             'amount': values['amount'],
             'currency': values['currency'] and values['currency'].name or '',
             'address': values.get('partner_address'),
@@ -199,7 +200,7 @@ class TxPayhere(models.Model):
         else:
             payment_type = 'outbound'
         res = {
-            'acquirer_reference': data.get('order_id').split('-')[0],
+            'acquirer_reference': data.get('order_id'),
             'payhere_txn_type': payment_type,
         }
 
