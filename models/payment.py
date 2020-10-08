@@ -199,7 +199,7 @@ class TxPayhere(models.Model):
         else:
             payment_type = 'outbound'
         res = {
-            'acquirer_reference': data.get('order_id'),
+            'acquirer_reference': data.get('payment_id'),
             'payhere_txn_type': payment_type,
         }
 
