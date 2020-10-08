@@ -129,7 +129,7 @@ class TxPayhere(models.Model):
 
     @api.model
     def _payhere_form_get_tx_from_data(self, data):
-        reference, payment_id = data.get('order_id'), data.get('payment_id')
+        reference, payment_id = data.get('order_id').split('-')[0], data.get('payment_id')
         if not reference or not payment_id:
             error_msg = _('Payhere: received data with missing reference (%s) or payment_id (%s)') % (reference, payment_id)
             _logger.info(error_msg)

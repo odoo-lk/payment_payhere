@@ -51,7 +51,7 @@ class PayhereController(http.Controller):
         Once data is validated, process it. """
         res = False
         post['cmd'] = '_notify-validate'
-        reference = post.get('order_id')
+        reference = post.get('order_id').split('-')[0]
         tx = None
         if reference:
             tx = request.env['payment.transaction'].sudo().search([('reference', '=', reference)])
