@@ -95,7 +95,6 @@ class AcquirerPayhere(models.Model):
             'merchant_id': self.payhere_email_account,
             'items': '%s: %s' % (self.company_id.name, reference),
             'order_id': reference,
-            'reference' : reference,
             'amount': values['amount'],
             'currency': values['currency'] and values['currency'].name or '',
             'address': values.get('partner_address'),
