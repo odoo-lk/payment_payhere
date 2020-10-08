@@ -89,14 +89,13 @@ class AcquirerPayhere(models.Model):
 
         payhere_tx_values = dict(values)
         _logger.info(' Values before pass  %s', pprint.pformat(values))
-        reference = values.get('reference').split('-')[0]
+        reference = values.get('reference')
         payhere_tx_values.update({
             'cmd': '_xclick',
             'merchant_id': self.payhere_email_account,
             'items': '%s: %s' % (self.company_id.name, reference),
             'order_id': reference,
             'amount': values['amount'],
-            'reference': reference,
             'currency': values['currency'] and values['currency'].name or '',
             'address': values.get('partner_address'),
             'phone' : values.get('partner_phone'),
