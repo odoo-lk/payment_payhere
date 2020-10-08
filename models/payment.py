@@ -96,6 +96,7 @@ class AcquirerPayhere(models.Model):
             'items': '%s: %s' % (self.company_id.name, reference),
             'order_id': reference,
             'amount': values['amount'],
+            'reference': reference,
             'currency': values['currency'] and values['currency'].name or '',
             'address': values.get('partner_address'),
             'phone' : values.get('partner_phone'),
