@@ -88,6 +88,7 @@ class AcquirerPayhere(models.Model):
         base_url = self.get_base_url()
 
         payhere_tx_values = dict(values)
+        _logger.info(' Values before pass  %s', pprint.pformat(values))
         payhere_tx_values.update({
             'cmd': '_xclick',
             'merchant_id': self.payhere_email_account,
