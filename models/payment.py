@@ -89,11 +89,12 @@ class AcquirerPayhere(models.Model):
 
         payhere_tx_values = dict(values)
         _logger.info(' Values before pass  %s', pprint.pformat(values))
+        reference = values.get('reference').split('-')[0]
         payhere_tx_values.update({
             'cmd': '_xclick',
             'merchant_id': self.payhere_email_account,
-            'items': '%s: %s' % (self.company_id.name, values['reference']),
-            'order_id': values['reference'],
+            'items': '%s: %s' % (self.company_id.name, reference),
+            'order_id': reference,
             'amount': values['amount'],
             'currency': values['currency'] and values['currency'].name or '',
             'address': values.get('partner_address'),
@@ -130,7 +131,7 @@ class TxPayhere(models.Model):
 
     @api.model
     def _payhere_form_get_tx_from_data(self, data):
-        reference, payment_id = data.get('order_id').split('-')[0], data.get('payment_id')
+        reference, payment_id = data.get('order_id'), data.get('payment_id')
         if not reference or not payment_id:
             error_msg = _('Payhere: received data with missing reference (%s) or payment_id (%s)') % (reference, payment_id)
             _logger.info(error_msg)
