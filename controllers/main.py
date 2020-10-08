@@ -102,7 +102,6 @@ class PayhereController(http.Controller):
             _logger.exception('Unable to validate the Payhere payment')
         return ''
 
-    @api.one
     @http.route('/payment/payhere/dpn', type='http', auth="public", methods=['POST', 'GET'], csrf=False)
     def payhere_dpn(self, **post):
         """ Payhere DPN """
